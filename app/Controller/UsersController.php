@@ -29,10 +29,14 @@ class UsersController extends AppController {
 	}
 
     public function index() {
+    	$user = AuthComponent::user();
+    	$this->set('user', $user);
     	$this->set('users', $this->User->find('all'));
 	}
 
     public function add() {
+    	$user = AuthComponent::user();
+    	$this->set('user', $user);
         if ($this->request->is('post')) {
             if ($this->User->save($this->request->data)) {
                 $this->Flash->success('Your user has been saved.');

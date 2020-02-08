@@ -51,6 +51,7 @@ class PostsController extends AppController {
     	$this->set('user', $user);
 	    if ($this->request->is('get')) {
 	        $this->request->data = $this->Post->findById($id);
+    		$this->set('id', $id);
 	        if($this->request->data == null){
 	        	$this->Flash->error('Post does not exist.');
 		    	$this->redirect(array('action' => 'index'));

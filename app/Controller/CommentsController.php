@@ -6,12 +6,8 @@ class CommentsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        //$this->Auth->allow('logout');
+        $this->Auth->allow('add');
     }
-
-    public function index() {
-
-	}
 
     public function add() {
         if ($this->request->is('post')) {
@@ -21,6 +17,23 @@ class CommentsController extends AppController {
 				    'controller' => 'posts',
 				    'action' => 'view', $this->request->data['Comment']['posts_id'])
 				);
+            }
+        }
+    }
+
+    public function delete($id) {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        }
+        $comment = $this->Comment->findById($id);
+        if($comment!=null){
+            var_dump($comment);
+            if ($this->Comment->delete($id)) {
+                $this->Flash->success('The comment with id: ' . $id . ' has been deleted.');
+                $this->redirect(array(
+                    'controller' => 'posts',
+                    'action' => 'view', $comment['Comment']['posts_id'])
+                );
             }
         }
     }

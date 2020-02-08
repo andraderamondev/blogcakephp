@@ -1,9 +1,13 @@
-<?php if($user!=null){ ?>
 <div style="background-color: #003d4c; padding:10px;">
-    <span style="color: #fff;"><?php  echo $user['User']['name'];?></span>
-    <span style="float: right;"><?php echo $this->Html->link('Sair', '/users/logout', array('style'=>'color:#fff;')); ?></span>
+    <span><?php echo $this->Html->link('Posts', '/posts', array('style'=>'color:#fff;'));?>&nbsp;</span>
+    <?php if($user!=null){ ?>
+        <span><?php echo $this->Html->link('Users', '/users', array('style'=>'color:#fff;'));?>&nbsp;</span>
+        <span style="float: right;"><?php echo $this->Html->link('Logout', '/users/logout', array('style'=>'color:#fff;')); ?></span>
+        <span style="float: right;color: #fff;"><?php  echo $user['User']['name'];?>&nbsp;/&nbsp;</span>
+    <?php }else{ ?>
+        <span style="float: right;"><?php echo $this->Html->link('Login', '/users/login', array('style'=>'color:#fff;')); ?></span>
+    <?php } ?> 
 </div>
-<?php } ?>
 <div style="background-color: #fff;padding:2% 6% 0 6%;">
     <?php foreach ($posts as $post) {?>  
     <div style="background-color: #ddd; padding:3%; border-radius:12px; margin-bottom: 3%;">
