@@ -1,3 +1,10 @@
+<?php if($user!=null){ ?>
+<div style="background-color: #003d4c; padding:10px;">
+    <span style="color: #fff;"><?php  echo $user['User']['name'];?></span>
+    <span style="float: right;"><?php echo $this->Html->link('Sair', '/users/logout', array('style'=>'color:#fff;')); ?></span>
+</div>
+<?php } ?>
+
 <div style="background-color: #fff;padding:2% 6% 0 6%;">
     <div style="background-color: #ddd; padding:3%; border-radius:12px; margin-bottom: 3%;">
         <h2 style="margin-bottom:0px; background:none;color:#000;font-weight:bold;"><?php echo $post['Post']['title'];?></h2>
@@ -21,7 +28,7 @@
         <hr>
         <br>
         <?php foreach ($post['Post']['comments'] as $comment) { ?>
-        <div style="display: -webkit-inline-box;margin-bottom: 10px;">
+        <div style="display: -webkit-inline-box;margin-bottom: 10px; width:100%;">
             <div style="margin-right: 15px;">
                 <img src="https://abad.com.br/wp-content/uploads/2019/11/user-icon.svg" width="60px" alt="">
             </div>

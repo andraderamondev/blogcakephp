@@ -6,7 +6,7 @@ class PostsController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        //$this->Auth->allow('logout');
+        $this->Auth->allow('index', 'view');
     }
 
     public function index() {
@@ -15,17 +15,28 @@ class PostsController extends AppController {
     		$post['Post']['users_id'] = $this->Post->getUser($post['Post']['users_id']);
     		$posts[] = $post;
     	} 
+    	$user = AuthComponent::user();
+    	$this->set('user', $user);
     	$this->set('posts', $posts);
 	}
 
-	function view($id){
+	function view($id=null){
 		$post = $this->Post->findById($id);
-		$post['Post']['users_id'] = $this->Post->getUser($post['Post']['users_id']);
-		$post['Post']['comments'] = $this->Post->getCommets($post['Post']['id']);
-		$this->set('post', $post);
+		if($id == null || $post == null){
+        	$this->Flash->error('Post does not exist.');
+	    	$this->redirect(array('action' => 'index'));
+        }else{
+			$post['Post']['users_id'] = $this->Post->getUser($post['Post']['users_id']);
+			$post['Post']['comments'] = $this->Post->getCommets($post['Post']['id']);
+			$user = AuthComponent::user();
+    		$this->set('user', $user);
+			$this->set('post', $post);
+        }
 	}
 
     public function add() {
+    	$user = AuthComponent::user();
+    	$this->set('user', $user);
         if ($this->request->is('post')) {
             if ($this->Post->save($this->request->data)) {
                 $this->Flash->success('Your post has been saved.');
@@ -36,6 +47,8 @@ class PostsController extends AppController {
 
     public function edit($id = null) {
 	    $this->Post->id = $id;
+	    $user = AuthComponent::user();
+    	$this->set('user', $user);
 	    if ($this->request->is('get')) {
 	        $this->request->data = $this->Post->findById($id);
 	        if($this->request->data == null){

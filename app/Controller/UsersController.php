@@ -6,7 +6,7 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        //$this->Auth->allow('logout');
+        $this->Auth->allow('logout');
     }
 
 	public function login() {
@@ -17,7 +17,7 @@ class UsersController extends AppController {
 		        'conditions' => array('User.login' => $this->request->data['User']['login'], 'User.password' => $a)
 		    ));
 		    if ($this->Auth->login($user)) {
-		        $this->redirect($this->Auth->redirect());
+		        $this->redirect('/posts');
 		    } else {
 		       $this->Flash->error('Invalid username or password, try again');
 		    }
