@@ -1,12 +1,17 @@
 <div style="background-color: #003d4c; padding:10px;">
-    <span><?php echo $this->Html->link('Posts', '/posts', array('style'=>'color:#fff;'));?>&nbsp;</span>
     <?php if($user!=null){ ?>
-        <span><?php echo $this->Html->link('Users', '/users', array('style'=>'color:#fff;'));?>&nbsp;</span>
-        <span style="float: right;"><?php echo $this->Html->link('Logout', '/users/logout', array('style'=>'color:#fff;')); ?></span>
-        <span style="float: right;color: #fff;"><?php  echo $user['User']['name'];?>&nbsp;/&nbsp;</span>
+        <div style="float: left; display:flex;">    
+            <?php echo $this->Html->image('uploads/avatar/'.$user['User']['avatar'], array('width' => '20px','alt'=>'avatar'));?>
+            <span style="color: #fff;">&nbsp;<?php echo $user['User']['name'];?></span>
+        </div>
+        <div style="float: right;">    
+            <span style="float: right;"><?php echo $this->Html->link('Logout', '/users/logout', array('style'=>'color:#fff;')); ?>></span>
+            <span>&nbsp;<?php echo $this->Html->link('Users', '/users', array('style'=>'color:#fff;'));?>&nbsp;</span>
+        </div>
     <?php }else{ ?>
-        <span style="float: right;"><?php echo $this->Html->link('Login', '/users/login', array('style'=>'color:#fff;')); ?></span>
+        <span style="float: right;">&nbsp;<?php echo $this->Html->link('Login', '/users/login', array('style'=>'color:#fff;')); ?></span>
     <?php } ?> 
+    <span><?php echo $this->Html->link('Posts', '/posts', array('style'=>'color:#fff;float:right;'));?>&nbsp;</span>
 </div>
 
 <div style="background-color: #fff;padding:2% 6% 0 6%;">
@@ -18,7 +23,7 @@
         <p style="margin-top:10px;color:#000;"><?php echo $post['Post']['content'];?></p>
     </div>
     <div style="background-color: #ddd; padding:3%; border-radius:12px; margin-bottom: 3%;">
-        <h3 style="color:#000;font-weight:bold;">Comentário(s) [<?php echo count($post['Post']['comments']); ?>]</h3>
+        <h3 style="color:#000;font-weight:bold;">Comments [<?php echo count($post['Post']['comments']); ?>]</h3>
         <?php 
             echo $this->Form->create('Comment', array('url'=>'/comments/add'));
             echo $this->Form->input('username');

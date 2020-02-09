@@ -38,6 +38,22 @@ class UsersController extends AppController {
     	$user = AuthComponent::user();
     	$this->set('user', $user);
         if ($this->request->is('post')) {
+
+        	if(!empty($this->request->data['User']['avatar']['name'])){
+                    $file = $this->request->data['User']['avatar'];
+                    $ext = substr(strtolower(strrchr($file['name'], '.')), 1);
+                    $arr_ext = array('jpg', 'jpeg', 'png');
+                    if(in_array($ext, $arr_ext)){
+                        $path = '../webroot/img/uploads/avatar/';
+                        move_uploaded_file($file['tmp_name'], WWW_ROOT . $path . $file['name']);
+                        $this->request->data['User']['avatar'] = $file['name'];
+                    }else{
+            			$this->Flash->error('Image dont valid.');
+                    }
+            }else{
+            	$this->request->data['User']['avatar'] = '';
+            }
+
             if ($this->User->save($this->request->data)) {
                 $this->Flash->success('Your user has been saved.');
                 $this->redirect(array('action' => 'index'));
@@ -47,6 +63,8 @@ class UsersController extends AppController {
 
     public function edit($id = null) {
 	    $this->User->id = $id;
+	    $user = AuthComponent::user();
+    	$this->set('user', $user);
 	    if ($this->request->is('get')) {
 	        $this->request->data = $this->User->findById($id);
 	        if($this->request->data == null){
@@ -54,6 +72,22 @@ class UsersController extends AppController {
 		    	$this->redirect(array('action' => 'index'));
 	        }
 	    } else {
+
+	    	if(!empty($this->request->data['User']['avatar']['name'])){
+                    $file = $this->request->data['User']['avatar'];
+                    $ext = substr(strtolower(strrchr($file['name'], '.')), 1);
+                    $arr_ext = array('jpg', 'jpeg', 'png');
+                    if(in_array($ext, $arr_ext)){
+                        $path = '../webroot/img/uploads/avatar/';
+                        move_uploaded_file($file['tmp_name'], WWW_ROOT . $path . $file['name']);
+                        $this->request->data['User']['avatar'] = $file['name'];
+                    }else{
+            			$this->Flash->error('Image dont valid.');
+                    }
+            }else{
+            	$this->request->data['User']['avatar'] = '';
+            }
+
 	        if ($this->User->save($this->request->data)) {
 	            $this->Flash->success('Your user has been updated.');
 	            $this->redirect(array('action' => 'index'));
